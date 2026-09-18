@@ -30,7 +30,7 @@ from the final registry are reported in `conflicts.csv` as rejected/overwritten.
 
 ## Reports
 
-Written to `config/FuzziIds/` (configurable):
+Written to `config/fuzziids/` — the same folder as the config file (`config/fuzziids/fuzziids.cfg`):
 
 - `<category>.csv` — used IDs: `id,name,owner_mod,java_class`
 - `<category>_available.csv` — free ID ranges: `start_id,end_id`
@@ -55,6 +55,10 @@ unusual code paths).
 - FML post-initialization (after all mods registered)
 - Every world load (catches late-registered dimensions; toggleable in the config)
 - `/fuzziids dump` (permission level 2) re-writes all reports on demand
+
+Setting `mainEnable=false` in the config disables everything: no mixins are applied, no reports
+are written automatically and the `/fuzziids` command is disabled. The config is read very early
+(before the mixins are selected), so the toggle takes effect on the next launch.
 
 ## Building
 

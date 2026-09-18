@@ -6,9 +6,10 @@ import net.minecraftforge.common.config.Configuration;
 
 public class Config {
 
+    /** The folder holding both the config file and the generated CSV reports. */
     public static File configDir = new File("config/" + FuzziIds.MODID);
 
-    public static String outputSubdir = FuzziIds.MODID;
+    public static boolean mainEnable = true;
     public static boolean dumpOnPostInit = true;
     public static boolean dumpOnWorldLoad = true;
     public static boolean availableAsRanges = true;
@@ -16,11 +17,12 @@ public class Config {
     public static void synchronizeConfiguration(File configFile) {
         Configuration configuration = new Configuration(configFile);
 
-        outputSubdir = configuration.getString(
-            "outputSubdirectory",
+        mainEnable = configuration.getBoolean(
+            "mainEnable",
             Configuration.CATEGORY_GENERAL,
-            outputSubdir,
-            "Subdirectory (under config/) where the ID report CSVs are written");
+            mainEnable,
+            "Main toggle to enable/disable the mod. When false, no mixins are applied, no reports are"
+                + " written automatically and the /fuzziids command is disabled.");
         dumpOnPostInit = configuration.getBoolean(
             "dumpOnPostInit",
             Configuration.CATEGORY_GENERAL,

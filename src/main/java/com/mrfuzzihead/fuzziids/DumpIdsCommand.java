@@ -1,7 +1,5 @@
 package com.mrfuzzihead.fuzziids;
 
-import java.io.File;
-
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
@@ -28,9 +26,17 @@ public class DumpIdsCommand extends CommandBase {
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
+        if (!Config.mainEnable) {
+            sender.addChatMessage(
+                new ChatComponentText(
+                    "FuzziIds is disabled (mainEnable=false in config/" + FuzziIds.MODID
+                        + "/"
+                        + FuzziIds.MODID
+                        + ".cfg)"));
+            return;
+        }
         IdDumpManager.dump();
         sender.addChatMessage(
-            new ChatComponentText(
-                "FuzziIds wrote ID reports to " + new File(Config.configDir, Config.outputSubdir).getAbsolutePath()));
+            new ChatComponentText("FuzziIds wrote ID reports to " + Config.configDir.getAbsolutePath()));
     }
 }

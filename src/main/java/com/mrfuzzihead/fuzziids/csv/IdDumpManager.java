@@ -21,7 +21,11 @@ public final class IdDumpManager {
     private IdDumpManager() {}
 
     public static void dump() {
-        File dir = new File(Config.configDir, Config.outputSubdir);
+        if (!Config.mainEnable) {
+            FuzziIds.LOG.info("FuzziIds is disabled (mainEnable=false); skipping ID report dump");
+            return;
+        }
+        File dir = Config.configDir;
         try {
             if (!dir.exists() && !dir.mkdirs()) {
                 throw new IOException("Could not create " + dir);

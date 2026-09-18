@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 
 import com.gtnewhorizon.gtnhmixins.builders.IMixins;
 import com.gtnewhorizon.gtnhmixins.builders.MixinBuilder;
+import com.mrfuzzihead.fuzziids.Config;
 
 public enum Mixins implements IMixins {
 
@@ -14,7 +15,8 @@ public enum Mixins implements IMixins {
             "DimensionManagerMixin",
             "EnchantmentMixin",
             "EntityListMixin",
-            "PotionMixin"));
+            "PotionMixin")
+        .setApplyIf(() -> Config.mainEnable));
 
     private final MixinBuilder builder;
 
