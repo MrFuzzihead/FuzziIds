@@ -1,4 +1,4 @@
-package com.myname.mymodid;
+package com.mrfuzzihead.fuzziids;
 
 import java.io.File;
 

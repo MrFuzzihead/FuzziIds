@@ -1,11 +1,8 @@
 package com.mrfuzzihead.fuzziids.mixins;
 
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import net.minecraft.launchwrapper.Launch;
 
 import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
 import com.gtnewhorizon.gtnhmixins.builders.IMixins;

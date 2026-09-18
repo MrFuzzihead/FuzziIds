@@ -16,7 +16,9 @@ public class FuzziIds {
     public static final String MODID = "fuzziids";
     public static final Logger LOG = LogManager.getLogger(MODID);
 
-    @SidedProxy(clientSide = "com.mrfuzzihead.fuzziids.ClientProxy", serverSide = "com.mrfuzzihead.fuzziids.CommonProxy")
+    @SidedProxy(
+        clientSide = "com.mrfuzzihead.fuzziids.ClientProxy",
+        serverSide = "com.mrfuzzihead.fuzziids.CommonProxy")
     public static CommonProxy proxy;
 
     @Mod.EventHandler
