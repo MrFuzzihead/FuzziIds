@@ -10,10 +10,11 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 
-@Mod(modid = FuzziIds.MODID, version = Tags.VERSION, name = "FuzziIds", acceptedMinecraftVersions = "[1.7.10]")
+@Mod(modid = FuzziIds.MODID, version = Tags.VERSION, name = FuzziIds.MODNAME, acceptedMinecraftVersions = "[1.7.10]")
 public class FuzziIds {
 
     public static final String MODID = "fuzziids";
+    public static final String MODNAME = "FuzziIds";
     public static final Logger LOG = LogManager.getLogger(MODID);
 
     @SidedProxy(

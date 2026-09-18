@@ -46,6 +46,10 @@ public abstract class DataWatcherMixin {
         }
     }
 
+    /**
+     * The immediate caller of the data watcher registration. Note: {@code Thread.getStackTrace}
+     * includes a frame for itself ({@code java.lang.Thread}), which must be skipped as well.
+     */
     @Unique
     private static String fuzziids$findDeclaringClass() {
         StackTraceElement[] stack = Thread.currentThread()
@@ -53,7 +57,7 @@ public abstract class DataWatcherMixin {
         String dataWatcherName = DataWatcher.class.getName();
         for (StackTraceElement element : stack) {
             String className = element.getClassName();
-            if (className.equals(dataWatcherName)) {
+            if (className.equals(dataWatcherName) || className.equals("java.lang.Thread")) {
                 continue;
             }
             return className;

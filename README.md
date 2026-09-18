@@ -36,7 +36,13 @@ Written to `config/FuzziIds/` (configurable):
 - `<category>_available.csv` — free ID ranges: `start_id,end_id`
 - `datawatchers.csv` — per entity class: `owner_class,watcher_id,data_type,declaring_class,owner_mod`
 - `dimensions.csv` / `providers.csv` — dimension and provider-type registrations
-- `conflicts.csv` — `category,id,existing,attempted,owner_mod`
+- `conflicts.csv` — `category,id,existing,attempted,owner_mod`: one row per *collision*. `existing`
+  describes the entry already present at that ID (including, where known, the mod that holds it),
+  `attempted` describes the incoming registration that collided with it, and `owner_mod` is the
+  owner of the **attempted** registration. Rejected registrations (captured but absent from the
+  final registry) and duplicate-dimension crashes are reported here too. Dimension un/re-register
+  cycles around world loads are tracked (via `unregisterDimension`), and a mod re-registering its
+  own provider type is not treated as a conflict.
 - `limits.csv` — `category,capacity,used,free,limit_source`
 
 `owner_mod` is attributed via the active FML mod container at registration time. Vanilla

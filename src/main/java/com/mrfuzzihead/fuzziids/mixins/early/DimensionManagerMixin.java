@@ -7,6 +7,7 @@ import net.minecraftforge.common.DimensionManager;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -37,11 +38,14 @@ public abstract class DimensionManagerMixin {
             String owner = ModOwnerResolver.currentOwner();
             IdCollector.recordProvider(id, provider.getName(), keepLoaded, owner);
             Class<?> existing = providers.get(Integer.valueOf(id));
-            if (existing != null) {
+            if (existing != null && !existing.equals(provider)) {
                 IdCollector.recordConflict(
                     IdCategory.DIMENSIONS,
                     id,
-                    "provider type in use by " + existing.getName(),
+                    "provider type in use by " + existing.getName()
+                        + " (registered by mod '"
+                        + fuzziids$providerOwner(id)
+                        + "')",
                     "attempted provider " + provider.getName() + " (vanilla would refuse)",
                     owner);
             }
@@ -58,5 +62,20 @@ public abstract class DimensionManagerMixin {
         } catch (Throwable ignored) {
             // never break dimension registration
         }
+    }
+
+    @Inject(method = "unregisterDimension(I)V", at = @At("HEAD"), remap = false)
+    private static void fuzziids$onUnregisterDimension(int id, CallbackInfo ci) {
+        try {
+            IdCollector.removeDimension(id);
+        } catch (Throwable ignored) {
+            // never break dimension unregistration
+        }
+    }
+
+    @Unique
+    private static String fuzziids$providerOwner(int providerTypeId) {
+        IdCollector.DimensionEntry entry = IdCollector.PROVIDERS.get(Integer.valueOf(providerTypeId));
+        return entry != null ? entry.ownerMod : "unknown";
     }
 }

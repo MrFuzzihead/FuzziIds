@@ -116,6 +116,13 @@ public final class IdCollector {
 
     public static synchronized void recordConflict(IdCategory category, int id, String existing, String attempted,
         String ownerMod) {
+        for (Conflict conflict : CONFLICTS) {
+            if (conflict.category == category && conflict.id == id
+                && conflict.existing.equals(existing)
+                && conflict.attempted.equals(attempted)) {
+                return; // identical conflict already recorded
+            }
+        }
         CONFLICTS.add(new Conflict(category, id, existing, attempted, ownerMod));
     }
 
@@ -177,11 +184,18 @@ public final class IdCollector {
             recordConflict(
                 IdCategory.DIMENSIONS,
                 dimensionId,
-                "dimension already registered with provider type " + existing.providerType,
+                "dimension already registered by mod '" + existing.ownerMod
+                    + "' with provider type "
+                    + existing.providerType,
                 "provider type " + providerType,
                 ownerMod);
             return;
         }
         DIMENSIONS.put(key, new DimensionEntry(dimensionId, providerType, null, false, ownerMod));
+    }
+
+    /** Dimensions are frequently un- and re-registered around world loads; keep the state accurate. */
+    public static void removeDimension(int dimensionId) {
+        DIMENSIONS.remove(Integer.valueOf(dimensionId));
     }
 }

@@ -6,9 +6,9 @@ import net.minecraftforge.common.config.Configuration;
 
 public class Config {
 
-    public static File configDir = new File("config");
+    public static File configDir = new File("config/" + FuzziIds.MODID);
 
-    public static String outputSubdir = "FuzziIds";
+    public static String outputSubdir = FuzziIds.MODID;
     public static boolean dumpOnPostInit = true;
     public static boolean dumpOnWorldLoad = true;
     public static boolean availableAsRanges = true;

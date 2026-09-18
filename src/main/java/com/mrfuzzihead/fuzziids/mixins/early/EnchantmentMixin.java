@@ -43,16 +43,17 @@ public abstract class EnchantmentMixin {
 
     /**
      * The registering class is the caller of the constructor (the subclass static initializer),
-     * since the handler runs before the instance exists.
+     * since the handler runs before the instance exists. Note: {@code Thread.getStackTrace}
+     * includes a frame for itself ({@code java.lang.Thread}), which must be skipped as well.
      */
     @Unique
     private static String fuzziids$findAttemptedClass() {
         StackTraceElement[] stack = Thread.currentThread()
             .getStackTrace();
-        String enchantmentName = Enchantment.class.getName();
+        String targetName = Enchantment.class.getName();
         for (StackTraceElement element : stack) {
             String className = element.getClassName();
-            if (className.equals(enchantmentName)) {
+            if (className.equals(targetName) || className.equals("java.lang.Thread")) {
                 continue;
             }
             return className;
