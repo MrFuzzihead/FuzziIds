@@ -8,7 +8,13 @@ import com.gtnewhorizon.gtnhmixins.builders.MixinBuilder;
 public enum Mixins implements IMixins {
 
     MINECRAFT(new MixinBuilder().setPhase(Phase.EARLY)
-        .addCommonMixins(""));
+        .addCommonMixins(
+            "BiomeGenBaseMixin",
+            "DataWatcherMixin",
+            "DimensionManagerMixin",
+            "EnchantmentMixin",
+            "EntityListMixin",
+            "PotionMixin"));
 
     private final MixinBuilder builder;
 

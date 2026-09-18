@@ -6,12 +6,36 @@ import net.minecraftforge.common.config.Configuration;
 
 public class Config {
 
-    public static String greeting = "Hello World";
+    public static File configDir = new File("config");
+
+    public static String outputSubdir = "FuzziIds";
+    public static boolean dumpOnPostInit = true;
+    public static boolean dumpOnWorldLoad = true;
+    public static boolean availableAsRanges = true;
 
     public static void synchronizeConfiguration(File configFile) {
         Configuration configuration = new Configuration(configFile);
 
-        greeting = configuration.getString("greeting", Configuration.CATEGORY_GENERAL, greeting, "How shall I greet?");
+        outputSubdir = configuration.getString(
+            "outputSubdirectory",
+            Configuration.CATEGORY_GENERAL,
+            outputSubdir,
+            "Subdirectory (under config/) where the ID report CSVs are written");
+        dumpOnPostInit = configuration.getBoolean(
+            "dumpOnPostInit",
+            Configuration.CATEGORY_GENERAL,
+            dumpOnPostInit,
+            "Write the ID reports during FML post-initialization");
+        dumpOnWorldLoad = configuration.getBoolean(
+            "dumpOnWorldLoad",
+            Configuration.CATEGORY_GENERAL,
+            dumpOnWorldLoad,
+            "Re-write the ID reports whenever a world loads (catches late dimension registrations)");
+        availableAsRanges = configuration.getBoolean(
+            "availableAsRanges",
+            Configuration.CATEGORY_GENERAL,
+            availableAsRanges,
+            "true: *_available.csv contains start/end ranges; false: one row per free ID");
 
         if (configuration.hasChanged()) {
             configuration.save();
